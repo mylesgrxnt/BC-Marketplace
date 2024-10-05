@@ -7,7 +7,8 @@ pip install -r requirements.txt
 
 ## Starting Virtual Environment
 ```
-source .venv/bin/activate
+python -m venv flask_environment
+source flask_environment/bin/activate
 ```
 
 ## Running Dev Server
