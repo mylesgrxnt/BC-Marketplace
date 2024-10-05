@@ -2,7 +2,7 @@
 
 ## Installing Dependencies
 ```
-pip install -r requirements.txt
+pip install flask flask-sqlalchemy flask-login
 ```
 
 ## Starting Virtual Environment
