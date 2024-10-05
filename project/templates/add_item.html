@@ -1,12 +1,66 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container col-3 text-start">
+<h1>Add an Item</h1>
+<div class="form-group mb-3">
+  <h3>Images</h3>
+  <input class="form-control" type="file" id="formFileMultiple" multiple>
+</div>
+<div class="form-group mb-3">
+  <h3>Name</h3>
+  <input type="text" class="form-control">
+</div>
+<div class="form-group mb-3">
+  <h3>Description</h3>
+  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+</div>
+<div class="form-group mb-3">
+  <h3>Price</h3>
+  <div class="input-group">
+    <span class="input-group-text">$</span>
+    <input type="text" class="form-control" aria-label="Amount (to the nearest cent)">
+  </div>
+</div>
+<div class="form-group mb-3">
+  <h3>Meetup</h3>
   <select class="form-select" aria-label="Default select example">
     <option selected>Open this select menu</option>
-    <option value="1">One</option>
-    <option value="2">Two</option>
-    <option value="3">Three</option>
+    <option value="1">Upper</option>
+    <option value="2">Lower</option>
+    <option value="3">Newton</option>
   </select>
+</div>
+<div class="form-group mb-3">
+  <h3>Preferred Payment</h3>
+  <select class="form-select" aria-label="Default select example">
+    <option selected>Open this select menu</option>
+    <option value="1">Cash</option>
+    <option value="2">Venmo</option>
+    <option value="3">Paypal</option>
+    <option value="4">Zelle</option>
+  </select>
+</div>
+<div class="form-group mb-3">
+  <h3>Condition</h3>
+  <select class="form-select" aria-label="Default select example">
+    <option selected>Open this select menu</option>
+    <option value="1">New</option>
+    <option value="2">Used (like new)</option>
+    <option value="3">Used (good)</option>
+    <option value="4">Used (fair)</option>
+    <option value="5">Refurbished</option>
+  </select>
+</div>
+<div class="form-group mb-3">
+  <h3>Type</h3>
+  <select class="form-select" aria-label="Default select example">
+    <option selected>Open this select menu</option>
+    <option value="1">Electronics</option>
+    <option value="2">Plants</option>
+    <option value="3">Lab Equipment</option>
+  </select>
+</div>
+<div class="form-group mb-3"></div>
+  <button type="button" class="btn btn-primary btn-lg">Post</button>
 </div>
 {% endblock %}
