@@ -1,0 +1,48 @@
+/* Changing fonts globally */
+body {
+  padding: 0;
+  font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Roboto', sans-serif;
+}
+
+/* brick by brick i made this navbar work - jude */
+.navbar {
+  background-color: #d8dee9;
+  padding-top: 0;
+  padding-bottom: 0;
+  border-bottom: 2px solid #2e3440;
+  font-family: 'Open Sans', sans-serif;
+  display: flex;
+  justify-content: center; /* edit me when more stuff is added, like logo */
+  align-items: center;
+  height: 100%;
+}
+
+.navcontainer {
+  padding: 0;
+  margin-right: 3em;
+  margin-left: 3em;
+}
+
+.navbar-menu {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-menu a {
+  color: #3b4252;
+  padding: 0.75rem 3rem;
+  text-decoration: none;
+  flex: 1;
+  transition: background-color 0.3s ease;
+  white-space: nowrap; 
+  line-height: 2;
+}
+
+.navbar-menu a:hover {
+  background-color: #2e3440;
+  color: #eceff4;
+}
