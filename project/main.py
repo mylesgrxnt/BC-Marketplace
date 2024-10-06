@@ -1,12 +1,13 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
-from .models import User, Product
+from .models import User, Product, Image
 from . import db
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms import (StringField, TextAreaField, IntegerField, BooleanField, DecimalField,
                      RadioField)
 from wtforms.validators import InputRequired, Length
+from flask_optional_routes import OptionalRoutes
 from base64 import b64encode
 import base64
 from io import BytesIO
@@ -21,13 +22,17 @@ class ProductForm(FlaskForm):
     condition = IntegerField('condition', validators=[InputRequired()])
     type = IntegerField('type', validators=[InputRequired()])
 
-
-
 main = Blueprint('main', __name__)
 
-@main.route('/')
-def index():
-  products = [1,2,3,4,5,6,7,8,9,10,11,12]
+optional = OptionalRoutes(main)
+
+@optional.routes('/<int:category>?/')
+def index(category=None, priceMin=None, priceMax=None, location=None, condition=None):
+  products = Product.query.all()
+  for p in products:
+    if p.types != category:
+      products.remove(p)
+      
   return render_template('index.html', products=products)
 
 @main.route('/profile')
@@ -43,7 +48,8 @@ def profile():
 def product(product_id):
     product = next((p for p in Product.query.all() if p.id == product_id), None)
     if product:
-      return render_template('product.html', product=product)
+      seller = next((s for s in User.query.all() if s.id == product.user_id), None)
+      return render_template('product.html', product=product, seller=seller)
     else:
       return "Product not found"
 

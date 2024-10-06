@@ -1,9 +1,74 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container d-flex justify-content-between">
-  <div class="col-6">Text</div>
-  <div class="col">Text</div>
+<div class="container d-flex gap-3 px-0">
+  <div class="col filters border rounded-3 p-3" style="height: 300px;">
+    <h5>Search for Something New</h5>
+    <div class="form-outline" data-mdb-input-init>
+      <input type="search" id="form1" class="form-control" placeholder="Search" aria-label="Search" />
+    </div>
+    <hr>
+    <div class="container">
+      <h5>Category</h5>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="1" id="type1">
+        <label class="form-check-label" for="type1">
+          Type 1
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="2" id="type2">
+        <label class="form-check-label" for="type2">
+          Type 2
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="3" id="type3">
+        <label class="form-check-label" for="type3">
+          Type 3
+        </label>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Apply</button>
+  </div>
+  <div class="col-9 container d-flex justify-content-center">
+    <div class="col-10">
+      <h1 class="mb-3">{{ product.name }} - <span class="fw-bold">{{ product.price }}</span></h1>
+      <div class="container border rounded-3 p-3 d-flex justify-content-center gap-3">
+        <div class="col-8 d-flex justify-content-center">
+          <img class="rounded-3" src="https://picsum.photos/550">
+        </div>
+        <div class="col filters border-start px-3 d-flex flex-column justify-content-between">
+          <div class="container">
+            <h3>Details</h3>
+            <h5>{{ product.desc }}</h5>
+            {% if product.meetup == 1 %}
+            <p class="fst-italic">Available for pickup at Upper Campus</p>
+            {% endif %}
+            {% if product.meetup == 2 %}
+            <p class="fst-italic">Available for pickup at Lower Campus</p>
+            {% endif %}
+            {% if product.meetup == 3 %}
+            <p class="fst-italic">Available for pickup at Newton Campus</p>
+            {% endif %}
+            <div class="px-0">
+              <a class="btn btn-primary">Contact Seller</a>
+            </div>
+          </div>
+          <div class="flex-grow-1"></div>
+          <hr>
+          <div class="flex-grow-1"></div>
+          <div class="container">
+            <h3>Seller</h3>
+            <div class="container d-flex align-items-center px-0 mb-3">
+              <img class="rounded-circle me-3" src="https://picsum.photos/50">
+              <h5 class="m-0"><a class="text-decoration-none text-black" href=""><span class="fw-semibold">{{ seller.name }}</span></a></h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}

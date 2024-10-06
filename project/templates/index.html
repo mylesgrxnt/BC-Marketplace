@@ -12,7 +12,7 @@
       <div class="carousel-item active">
         <img src="../static/images/andrew-neel-ADjcacMLblo-unsplash.jpg" class="d-block w-100 center-cropped" alt="Woman Using Laptop">
         <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50">
-          <h3 class="fw-bold">Add a Listing</h3>
+          <a class="text-decoration-none text-light" href="{{ url_for('main.add_item')}}"><h3 class="fw-bold">Add a Listing</h3></a>
           <p>Anywhere, anytime, BC Marketplace allows you to list the items that you don't use anymore</p>
         </div>
       </div>
@@ -44,7 +44,7 @@
 
 <div class="container p-0 mb-3 d-flex justify-content-between align-middle">
   <h2 class="fw-bold text-center m-0 align-middle">Featured Listings</h2>
-  <button class="btn btn-secondary fw-bold">See More</button>
+  <a href="#page-break"><button class="btn btn-secondary fw-bold">See More</button></a>
 </div>
 <div class="container d-flex justify-content-between p-0 gap-5" style="height: 375px;">
   <div class="rounded-3" style="width: 300px;">
@@ -81,10 +81,10 @@
   </div>
 </div>
 
-<hr />
+<hr id="page-break" />
 
 <div class="container d-flex gap-3 px-0">
-  <div class="col filters border rounded-3 p-3" style="height: 700px;">
+  <div class="col filters border rounded-3 p-3" style="height: 750px;">
     <div class="form-outline" data-mdb-input-init>
       <input type="search" id="form1" class="form-control" placeholder="Search" aria-label="Search" />
     </div>
@@ -186,17 +186,26 @@
         </label>
       </div>
     </div>
+    <button class="btn btn-primary mt-3">Apply</button>
   </div>
   <div class="col-9 container">
     <div class="container px-0">
       <div class="row row-cols-4 d-flex justify-content-between row-gap-4">
         {% for product in products %}
         <div class="rounded-3 col px-0">
-          <img class="col rounded-3" src="https://picsum.photos/id/6/200">
+          <a href="{{ url_for('main.product', product_id=product.id) }}"><img class="col rounded-3" src="https://picsum.photos/200"></a>
           <div class="container p-0 m-0">
-            <h5 class="fw-bold mb-1 mt-2">$150.00</h5>
-            <h6 class="mb-1">Dell Laptop</h6>
-            <p class="fst-italic m-0">Meet Up on Lower Campus</p>
+            <h5 class="fw-bold mb-1 mt-2">${{product.price}}</h5>
+            <h6 class="mb-1">{{product.name}}</h6>
+            {% if product.meetup == 1 %}
+            <p class="fst-italic m-0">Available for pickup at Upper Campus</p>
+            {% endif %}
+            {% if product.meetup == 2 %}
+            <p class="fst-italic m-0">Available for pickup at Lower Campus</p>
+            {% endif %}
+            {% if product.meetup == 3 %}
+            <p class="fst-italic m-0">Available for pickup at Newton Campus</p>
+            {% endif %}
           </div>
         </div>
         {% endfor %}
