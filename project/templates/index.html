@@ -84,7 +84,7 @@
 <hr id="page-break" />
 
 <div class="container d-flex gap-3 px-0">
-  <div class="col filters border rounded-3 p-3" style="height: 750px;">
+  <div class="col filters border rounded-3 p-3" style="height: 780px;">
     <div class="form-outline" data-mdb-input-init>
       <input type="search" id="form1" class="form-control" placeholder="Search" aria-label="Search" />
     </div>
@@ -94,19 +94,25 @@
       <div class="form-check">
         <input class="form-check-input" type="checkbox" value="1" id="type1">
         <label class="form-check-label" for="type1">
-          Type 1
+          Electronics
         </label>
       </div>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" value="2" id="type2">
         <label class="form-check-label" for="type2">
-          Type 2
+          Plants
         </label>
       </div>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" value="3" id="type3">
         <label class="form-check-label" for="type3">
-          Type 3
+          Lab Equipment
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="4" id="type4">
+        <label class="form-check-label" for="type4">
+          Other
         </label>
       </div>
     </div>
@@ -193,7 +199,9 @@
       <div class="row row-cols-4 d-flex justify-content-between row-gap-4">
         {% for product in products %}
         <div class="rounded-3 col px-0">
-          <a href="{{ url_for('main.product', product_id=product.id) }}"><img class="col rounded-3" src="https://picsum.photos/200"></a>
+          <div class="container">
+            <a href="{{ url_for('main.product', product_id=product.id) }}"><img class="col rounded-3 resize-200" src="data:image/png;base64, {{ product.image_rendered_data }}"></a>
+          </div>
           <div class="container p-0 m-0">
             <h5 class="fw-bold mb-1 mt-2">${{product.price}}</h5>
             <h6 class="mb-1">{{product.name}}</h6>

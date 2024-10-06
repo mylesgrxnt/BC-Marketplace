@@ -30,7 +30,17 @@ optional = OptionalRoutes(main)
 def index(category=None, priceMin=None, priceMax=None, location=None, condition=None):
   products = Product.query.all()
   for p in products:
-    if p.types != category:
+    if p.types != category and category is not None:
+      products.remove(p)
+    if priceMin is not None:
+      if p.price < priceMin:
+        products.remove(p)
+    if priceMax is not None:
+      if p.price > priceMax:
+        products.remove(p)
+    if p.meetup != location and location is not None:
+      products.remove(p)
+    if p.condition != condition and condition is not None:
       products.remove(p)
       
   return render_template('index.html', products=products)
@@ -65,8 +75,10 @@ def add_item():
       new_product = Product(name=form.name.data, desc=form.description.data, price=form.price.data, meetup=form.meetup.data, preferredPayment=form.payment.data, condition=form.condition.data, types=form.type.data, user_id=current_user.id, image_data=data, image_rendered_data=renderedTestFile)
       db.session.add(new_product)
       db.session.commit()
+      return redirect('/')
     else:
       flash("All fields must be filled before submitting")
-
-
-  return render_template('add_item.html', form=form)
+      return render_template('add_item.html', form=form)
+  else:
+    return render_template('add_item.html', form=form)
+  
