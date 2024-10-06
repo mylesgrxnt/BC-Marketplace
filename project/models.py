@@ -21,3 +21,5 @@ class Product(db.Model):
   condition = db.Column(db.Integer, nullable=False)
   types = db.Column(db.Integer, nullable=False)
   user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+  image_data = db.Column(db.LargeBinary, nullable=False) #Actual data, needed for Download
+  image_rendered_data = db.Column(db.Text, nullable=False) #Data to render the pic in browser
