@@ -1,9 +1,64 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, request
-from flask_login import login_user, login_required, logout_user
+from flask import Blueprint, render_template, redirect, url_for, flash, request, current_app
+from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User, Product
 from . import db
 import re
+from itsdangerous import URLSafeTimedSerializer
+import os
+from dotenv import load_dotenv
+from flask_mail import Mail, Message
+from .__init__ import create_app
+
+load_dotenv()
+
+def generate_token(email):
+    serializer = URLSafeTimedSerializer(os.getenv("SECRET_KEY"))
+    return serializer.dumps(email, salt=os.getenv("SECURITY_PASSWORD_SALT"))
+
+
+def confirm_token(token, expiration=3600):
+    serializer = URLSafeTimedSerializer(os.getenv("SECRET_KEY"))
+    try:
+        email = serializer.loads(
+            token, salt=os.getenv("SECURITY_PASSWORD_SALT"), max_age=expiration
+        )
+        return email
+    except Exception:
+        return False
+
+
+
+def send_email(to, subject, template):
+    app = current_app
+    app.config.update(dict(
+    DEBUG = False,
+    TESTING = False,
+    CSRF_ENABLED = True,
+    SECRET_KEY = os.getenv("SECRET_KEY"),
+    BCRYPT_LOG_ROUNDS = 13,
+    WTF_CSRF_ENABLED = True,
+    DEBUG_TB_ENABLED = False,
+    DEBUG_TB_INTERCEPT_REDIRECTS = False,
+    SECURITY_PASSWORD_SALT = os.getenv("SECURITY_PASSWORD_SALT"),
+    MAIL_DEFAULT_SENDER = "noreply@flask.com",
+    MAIL_SERVER = "smtp.gmail.com",
+    MAIL_PORT = 465,
+    MAIL_USE_TLS = False,
+    MAIL_USE_SSL = True,
+    MAIL_DEBUG = False,
+    MAIL_USERNAME = "reverseparenthesisprogram@gmail.com",
+    MAIL_PASSWORD = "qlrn lveq nfqb exom"
+    ))
+    mail = Mail(app)
+    msg = Message(
+        subject,
+        recipients=[to],
+        html=template,
+        sender="noreply@flask.com",
+    )
+    mail.send(msg)
+
 
 auth = Blueprint('auth', __name__)
 
@@ -60,10 +115,42 @@ def signup_post():
   db.session.add(new_user)
   db.session.commit()
 
-  return redirect(url_for('auth.login'))
+  token = generate_token(new_user.email)
+
+  confirm_url = url_for("auth.confirm_email", token=token, _external=True)
+  html = render_template("confirm_email.html", confirm_url=confirm_url)
+  subject = "Please confirm your email"
+  send_email(new_user.email, subject, html)
+
+  login_user(new_user)
+
+  flash("A confirmation email has been sent via email.", "success")
+
+  return redirect(url_for("main.inactive"))
+
+  #return render_template("accounts/register.html", form=form)
+
+  #return redirect(url_for('auth.login'))
 
 @auth.route('/logout')
 @login_required
 def logout():
   logout_user()
   return redirect(url_for('main.index'))
+
+@auth.route("/confirm/<token>")
+@login_required
+def confirm_email(token):
+    if current_user.isConfirmed:
+        flash("Account already confirmed.", "success")
+        return redirect(url_for("main.profile"))
+    email = confirm_token(token)
+    user = User.query.filter_by(email=current_user.email).first_or_404()
+    if user.email == email:
+        user.isConfirmed = True
+        db.session.add(user)
+        db.session.commit()
+        flash("You have confirmed your account. Thanks!", "success")
+    else:
+        flash("The confirmation link is invalid or has expired.", "danger")
+    return redirect(url_for("main.profile"))

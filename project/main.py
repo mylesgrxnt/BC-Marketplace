@@ -12,6 +12,15 @@ from base64 import b64encode
 import base64
 from io import BytesIO
 
+
+
+def isUserConfirmed(func):
+    if current_user.isConfirmed is False:
+        flash("Please confirm your account!", "warning")
+        return redirect(url_for("main.inactive"))
+    return func
+
+
 class ProductForm(FlaskForm):
     image = FileField("image", validators=[FileRequired(), FileAllowed(['jpg', 'png'], 'Images only!')])
     name = StringField('name', validators=[InputRequired()])
@@ -76,22 +85,25 @@ def index():
 @optional.routes('/profile/<int:user_id>?/')
 @login_required
 def profile(user_id=None):
+  
   if user_id is not None:
     user = User.query.get(user_id)
-    return render_template('profile.html', 
+    ret = render_template('profile.html', 
       id=user.id,
       name=user.name,
       email=user.email,
       location=user.location,
       rating=user.rating,
       owned_products=user.products)
-  return render_template('profile.html', 
+    return isUserConfirmed(ret)
+  ret = render_template('profile.html', 
       id=current_user.id,
       name=current_user.name,
       email=current_user.email,
       location=current_user.location,
       rating=current_user.rating,
       owned_products=current_user.products)
+  return isUserConfirmed(ret)
 
 @main.route('/product/<int:product_id>')
 @login_required
@@ -165,5 +177,12 @@ def add_item():
       flash("All fields must be filled before submitting")
       return render_template('add_item.html', form=form)
   else:
-    return render_template('add_item.html', form=form)
+    ret = render_template('add_item.html', form=form)
+    return isUserConfirmed(ret)
   
+@main.route("/inactive")
+@login_required
+def inactive():
+    if current_user.isConfirmed:
+        return redirect(url_for("main.profile"))
+    return render_template("inactive.html")

@@ -31,6 +31,7 @@ class User(UserMixin, db.Model):
   rating = db.Column(db.Float, nullable=False, default=5.0)
   location = db.Column(db.String(100))
   isOfficial = db.Column(db.Boolean, nullable=True, default=False)
+  isConfirmed = db.Column(db.Boolean, nullable=False, default=False)
 
 class Product(db.Model):
   id = db.Column(db.Integer, primary_key=True)
