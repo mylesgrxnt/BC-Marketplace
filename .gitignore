@@ -2,4 +2,3 @@ flask_environment
 __pycache__
 .env
 .DS_Store*
-instance/
