@@ -59,7 +59,7 @@
             {% endif %}
             {% if seller.id != current_user.id %}
             <div class="px-0">
-              <a class="btn btn-primary">Contact Seller</a>
+              <a class="btn btn-primary" href="https://mail.google.com/mail/u/0/?fs=1&to={{seller.email}}.com&su=Interested In {{product.name}}&tf=cm">Contact Seller</a>
             </div>
             {% endif %}
           </div>

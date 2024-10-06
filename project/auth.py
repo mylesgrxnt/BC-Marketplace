@@ -3,6 +3,7 @@ from flask_login import login_user, login_required, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User, Product
 from . import db
+import re
 
 auth = Blueprint('auth', __name__)
 
@@ -44,6 +45,12 @@ def signup_post():
 
   if user: # if a user is found, we want to redirect back to signup page so user can try again
     flash('Email address already exists')
+    return redirect(url_for('auth.signup'))
+
+  EMAIL_REGEX = re.compile(r"[A-Za-z]+@bc\.edu")
+
+  if not EMAIL_REGEX.match(email):
+    flash('Please use a BC email')
     return redirect(url_for('auth.signup'))
 
   # create a new user with the form data. Hash the password so the plaintext version isn't saved.
