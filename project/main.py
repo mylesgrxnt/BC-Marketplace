@@ -5,7 +5,7 @@ from . import db
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms import (StringField, TextAreaField, IntegerField, BooleanField, DecimalField,
-                     RadioField)
+                     RadioField, FloatField)
 from wtforms.validators import InputRequired, Length
 from flask_optional_routes import OptionalRoutes
 from base64 import b64encode
@@ -22,28 +22,46 @@ class ProductForm(FlaskForm):
     condition = IntegerField('condition', validators=[InputRequired()])
     type = IntegerField('type', validators=[InputRequired()])
 
+class FilterForm(FlaskForm):
+  category = IntegerField('category')
+  priceMin = FloatField('priceMin')
+  priceMax = FloatField('priceMax')
+  location = IntegerField('location')
+  condition = IntegerField('condition')
+
 main = Blueprint('main', __name__)
 
 optional = OptionalRoutes(main)
 
-@optional.routes('/<int:category>?/')
-def index(category=None, priceMin=None, priceMax=None, location=None, condition=None):
+@optional.routes('/', methods =["GET", "POST"])
+def index():
+  form = FilterForm()
   products = Product.query.all()
-  for p in products:
-    if p.types != category and category is not None:
-      products.remove(p)
-    if priceMin is not None:
-      if p.price < priceMin:
+  featured = Product.query.filter_by(user_id=1)
+  featured_products = featured.all()
+
+  if request.method == "POST":
+    type_list = request.form.getlist('type')
+    priceMin = request.form.get('priceMin')
+    priceMax = request.form.get('priceMax')
+    location_list = request.form.getlist('location')
+    condition_list = request.form.getlist('condition')
+
+    for p in products:
+      if str(p.types) not in type_list and type_list != []:
         products.remove(p)
-    if priceMax is not None:
-      if p.price > priceMax:
+      if priceMin != "":
+        if p.price < float(priceMin):
+          products.remove(p)
+      if priceMax != "":
+        if p.price > float(priceMax):
+          products.remove(p)
+      if str(p.meetup) not in location_list and location_list != []:
         products.remove(p)
-    if p.meetup != location and location is not None:
-      products.remove(p)
-    if p.condition != condition and condition is not None:
-      products.remove(p)
+      if str(p.condition) not in condition_list and condition_list != []:
+        products.remove(p)
       
-  return render_template('index.html', products=products)
+  return render_template('index.html', products=products, featured_products=featured_products, form=form)
 
 @optional.routes('/profile/<int:user_id>?/')
 @login_required
@@ -65,16 +83,45 @@ def profile(user_id=None):
       rating=current_user.rating,
       owned_products=current_user.products)
 
-
-@main.route('/product/<int:product_id>', methods = ["GET", "POST"])
+@main.route('/product/<int:product_id>')
 @login_required
 def product(product_id):
-  product = next((p for p in Product.query.all() if p.id == product_id), None)
-  if product:
-    seller = next((s for s in User.query.all() if s.id == product.user_id), None)
-    return render_template('product.html', product=product, seller=seller, user=current_user)
-  else:
-    return "Product not found"
+    product = next((p for p in Product.query.all() if p.id == product_id), None)
+    if product:
+      seller = next((s for s in User.query.all() if s.id == product.user_id), None)
+      return render_template('product.html', product=product, seller=seller)
+    else:
+      return "Product not found"
+    
+@optional.routes('/allproducts/', methods =["GET", "POST"])
+@login_required
+def allproducts():
+  form = FilterForm()
+  products = Product.query.all()
+
+  if request.method == "POST":
+    type_list = request.form.getlist('type')
+    priceMin = request.form.get('priceMin')
+    priceMax = request.form.get('priceMax')
+    location_list = request.form.getlist('location')
+    condition_list = request.form.getlist('condition')
+
+    for p in products:
+      if str(p.types) not in type_list and type_list != []:
+        products.remove(p)
+      if priceMin != "":
+        if p.price < float(priceMin):
+          products.remove(p)
+      if priceMax != "":
+        if p.price > float(priceMax):
+          products.remove(p)
+      if str(p.meetup) not in location_list and location_list != []:
+        products.remove(p)
+      if str(p.condition) not in condition_list and condition_list != []:
+        products.remove(p)
+      
+  return render_template('allproducts.html', products=products, form=form)
+
 
 @main.route('/delete_product/<int:id>', methods=['POST'])
 @login_required
@@ -82,6 +129,7 @@ def delete_product(id):
   Product.query.filter(Product.id == id).delete()
   db.session.commit()
   return redirect('/')
+
 
 @main.route('/add_item', methods =["GET", "POST"])
 @login_required
