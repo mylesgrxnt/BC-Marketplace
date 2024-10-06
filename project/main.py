@@ -1,7 +1,22 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, flash
 from flask_login import login_required, current_user
 from .models import User, Product
 from . import db
+from flask_wtf import FlaskForm
+from wtforms import (StringField, TextAreaField, IntegerField, BooleanField, DecimalField,
+                     RadioField)
+from wtforms.validators import InputRequired, Length
+
+class ProductForm(FlaskForm):
+    name = StringField('name', validators=[InputRequired()])
+    description = TextAreaField('description', validators=[InputRequired()])
+    price = DecimalField('price', validators=[InputRequired()])
+    meetup = IntegerField('meetup', validators=[InputRequired()])
+    payment = IntegerField('payment', validators=[InputRequired()])
+    condition = IntegerField('condition', validators=[InputRequired()])
+    type = IntegerField('type', validators=[InputRequired()])
+
+
 
 main = Blueprint('main', __name__)
 
@@ -18,15 +33,14 @@ def profile():
 @main.route('/add_item', methods =["GET", "POST"])
 @login_required
 def add_item():
-  # string is from name field of input elements in add_item.html, the dropdowns return the index (1-based) of the option selected
-  # print(request.form.get("payment"))
-  if request.form.get("name") != None:
-    new_product = Product(name=request.form.get("name"), desc=request.form.get("description"), price=request.form.get("price"), meetup=request.form.get("meetup"), preferredPayment=request.form.get("payment"), condition=request.form.get("condition"), types=request.form.get("type"), user_id=current_user.id)
-    db.session.add(new_product)
-    db.session.commit()
-  # current_user.id for user id
-  # look at models.py
-  # auth.py line 50
+  form = ProductForm()
+  if request.method == "POST":
+    if form.validate_on_submit():
+      new_product = Product(name=form.name.data, desc=form.description.data, price=form.price.data, meetup=form.meetup.data, preferredPayment=form.payment.data, condition=form.condition.data, types=form.type.data, user_id=current_user.id)
+      db.session.add(new_product)
+      db.session.commit()
+    else:
+      flash("All fields must be filled before submitting")
 
 
-  return render_template('add_item.html')
+  return render_template('add_item.html', form=form)
