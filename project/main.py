@@ -33,14 +33,19 @@ main = Blueprint('main', __name__)
 
 optional = OptionalRoutes(main)
 
-@optional.routes('/', methods =["GET", "POST"])
+@main.route('/', methods =["GET", "POST"])
 def index():
   form = FilterForm()
   products = Product.query.all()
   featured = Product.query.filter_by(user_id=1)
   featured_products = featured.all()
+  scroll=None
+  remove_list = []
 
   if request.method == "POST":
+    scroll = "page-break"
+
+    search_query = request.form.get('search')
     type_list = request.form.getlist('type')
     priceMin = request.form.get('priceMin')
     priceMax = request.form.get('priceMax')
@@ -48,20 +53,25 @@ def index():
     condition_list = request.form.getlist('condition')
 
     for p in products:
+      if not (search_query.lower() in p.name.lower() or search_query.lower() in p.desc.lower()):
+        remove_list.append(p)
       if str(p.types) not in type_list and type_list != []:
-        products.remove(p)
+        remove_list.append(p)
       if priceMin != "":
         if p.price < float(priceMin):
-          products.remove(p)
+          remove_list.append(p)
       if priceMax != "":
         if p.price > float(priceMax):
-          products.remove(p)
+          remove_list.append(p)
       if str(p.meetup) not in location_list and location_list != []:
-        products.remove(p)
+        remove_list.append(p)
       if str(p.condition) not in condition_list and condition_list != []:
-        products.remove(p)
-      
-  return render_template('index.html', products=products, featured_products=featured_products, form=form)
+        remove_list.append(p)
+
+  new_product_list = [x for x in products if x not in remove_list]
+  print(new_product_list)
+
+  return render_template('index.html', products=new_product_list, featured_products=featured_products, form=form, scroll=scroll)
 
 @optional.routes('/profile/<int:user_id>?/')
 @login_required
@@ -98,8 +108,10 @@ def product(product_id):
 def allproducts():
   form = FilterForm()
   products = Product.query.all()
+  remove_list = []
 
   if request.method == "POST":
+    search_query = request.form.get('search')
     type_list = request.form.getlist('type')
     priceMin = request.form.get('priceMin')
     priceMax = request.form.get('priceMax')
@@ -107,20 +119,25 @@ def allproducts():
     condition_list = request.form.getlist('condition')
 
     for p in products:
+      if not (search_query.lower() in p.name.lower() or search_query.lower() in p.desc.lower()):
+        remove_list.append(p)
       if str(p.types) not in type_list and type_list != []:
-        products.remove(p)
+        remove_list.append(p)
       if priceMin != "":
         if p.price < float(priceMin):
-          products.remove(p)
+          remove_list.append(p)
       if priceMax != "":
         if p.price > float(priceMax):
-          products.remove(p)
+          remove_list.append(p)
       if str(p.meetup) not in location_list and location_list != []:
-        products.remove(p)
+        remove_list.append(p)
       if str(p.condition) not in condition_list and condition_list != []:
-        products.remove(p)
+        remove_list.append(p)
+
+  new_product_list = [x for x in products if x not in remove_list]
+  print(new_product_list)
       
-  return render_template('allproducts.html', products=products, form=form)
+  return render_template('allproducts.html', products=new_product_list, remove_list=remove_list, form=form)
 
 
 @main.route('/delete_product/<int:id>', methods=['POST'])

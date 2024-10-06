@@ -10,10 +10,10 @@ h1, h2, h3, h4, h5, h6 {
 
 /* brick by brick i made this navbar work - jude */
 .navbar {
-  background: #d8dee9 !important;
+  /* background: #d8dee9 !important; */
   padding-top: 0;
   padding-bottom: 0;
-  border-bottom: 2px solid #2e3440;
+  /* border-bottom: 2px solid #2e3440; */
   font-family: 'Open Sans', sans-serif;
   display: flex;
   justify-content: center; /* edit me when more stuff is added, like logo incase you want to left justify*/
@@ -72,4 +72,14 @@ h1, h2, h3, h4, h5, h6 {
   max-height: 100%;
   display: block;
   margin: auto;
+}
+
+.btn-primary {
+  background-color: #2e3440 !important;
+  border-color: #2e3440 !important;
+}
+
+.button {
+  background-color: #2e3440 !important;
+  border-color: #2e3440 !important;
 }

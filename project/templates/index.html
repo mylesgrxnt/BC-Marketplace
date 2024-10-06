@@ -68,13 +68,20 @@
 </div>
 
 <hr id="page-break" />
+{% if scroll %}
+<script>
+    document.getElementById('{{ scroll }}').scrollIntoView();
+    // or
+    document.location.hash = '#' + '{{ scroll }}';
+</script>
+{% endif %}
 
 <div class="container d-flex gap-3 px-0">
   <form method="POST">
     {{ form.csrf_token }}
     <div class="col filters border rounded-3 p-3" style="height: 780px;">
       <div class="form-outline" data-mdb-input-init>
-        <input type="search" id="form1" class="form-control" placeholder="Search" aria-label="Search" />
+        <input name="search" type="search" id="form1" class="form-control" placeholder="Search" aria-label="Search" />
       </div> 
       <hr>
       <div class="container">
