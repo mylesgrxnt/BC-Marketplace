@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, Flask
 from flask_login import login_required, current_user
 from .models import User, Product
 from . import db
@@ -11,6 +12,7 @@ from flask_optional_routes import OptionalRoutes
 from base64 import b64encode
 import base64
 from io import BytesIO
+from flask_optional_routes import OptionalRoutes
 
 class ProductForm(FlaskForm):
     image = FileField("image", validators=[FileRequired(), FileAllowed(['jpg', 'png'], 'Images only!')])
