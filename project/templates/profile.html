@@ -41,65 +41,17 @@
         </h1>
 
         <!-- product listing code -->
+        <!-- its all spam! for the love of god make this scalable  -->
+        {% for product in owned_products %}
         <div class="rounded-3 col-md-3">
-          <img class="col rounded-3" src="https://picsum.photos/id/6/300">
+          <img class="col rounded-3" src="data:image/png;base64, {{ product.image_rendered_data }}">
           <div class="container p-0 m-0">
-            <h5 class="fw-bold mb-1 mt-2">$150.00</h5>
-            <h6 class="mb-1">Dell Laptop</h6>
-            <p class="fst-italic m-0">Meet Up on Lower Campus</p>
+            <h5 class="fw-bold mb-1 mt-2">${{product.price}} </h5>
+            <h6 class="mb-1"> {{product.name}} </h6>
+            <p class="fst-italic m-0">Meet Up: {{product.getLocation()}} </p>
           </div>
         </div>
-        <div class="rounded-3 col-md-3">
-          <img class="col rounded-3" src="https://picsum.photos/id/21/300">
-          <div class="container p-0 m-0">
-            <h5 class="fw-bold mb-1 mt-2">$30.00</h5>
-            <h6 class="mb-1">Old Red High Heel Shoes</h6>
-            <p class="fst-italic m-0">Meet Up on Campus</p>
-          </div>
-        </div>
-        <div class="rounded-3 col-md-3">
-          <img class="col rounded-3" src="https://picsum.photos/id/145/300">
-          <div class="container p-0 m-0">
-            <h5 class="fw-bold mb-1 mt-2">$50.00</h5>
-            <h6 class="mb-1">Used Fender Guitar</h6>
-            <p class="fst-italic m-0">Pick Up on Newton Campus</p>
-          </div>
-        </div>
-        <div class="rounded-3 col-md-3">
-          <img class="col rounded-3" src="https://picsum.photos/id/157/300">
-          <div class="container p-0 m-0">
-            <h5 class="fw-bold mb-1 mt-2">$20.00</h5>
-            <h6 class="mb-1">Penny Board</h6>
-            <p class="fst-italic m-0">Meet Up on Upper Campus</p>
-          </div>
-        </div>
-
-        <div class="rounded-3 col-md-3">
-          <img class="col rounded-3" src="https://picsum.photos/id/157/300">
-          <div class="container p-0 m-0">
-            <h5 class="fw-bold mb-1 mt-2">$20.00</h5>
-            <h6 class="mb-1">Penny Board</h6>
-            <p class="fst-italic m-0">Meet Up on Upper Campus</p>
-          </div>
-        </div>
-
-        <div class="rounded-3 col-md-3">
-          <img class="col rounded-3" src="https://picsum.photos/id/157/300">
-          <div class="container p-0 m-0">
-            <h5 class="fw-bold mb-1 mt-2">$20.00</h5>
-            <h6 class="mb-1">Penny Board</h6>
-            <p class="fst-italic m-0">Meet Up on Upper Campus</p>
-          </div>
-        </div>
-
-        <div class="rounded-3 col-md-3">
-          <img class="col rounded-3" src="https://picsum.photos/id/157/300">
-          <div class="container p-0 m-0">
-            <h5 class="fw-bold mb-1 mt-2">$20.00</h5>
-            <h6 class="mb-1">Penny Board</h6>
-            <p class="fst-italic m-0">Meet Up on Upper Campus</p>
-          </div>
-        </div>
+        {% endfor %}
 
       </div>
 

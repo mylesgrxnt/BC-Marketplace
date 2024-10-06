@@ -1,6 +1,27 @@
 from flask_login import UserMixin
 from . import db
 
+PAYMENT = {
+  1: "Cash",
+  2: "Venmo",
+  3: "Paypal",
+  4: "Zelle"
+}
+
+LOCATION = {
+  1: "Upper",
+  2: "Lower",
+  3: "Newton"
+}
+
+CONDITION = {
+  1: "New",
+  2: "Used (like new)",
+  3: "Used (good)",
+  4: "Used (fair)",
+  5: "Refurbished",
+}
+
 class User(UserMixin, db.Model):
   id = db.Column(db.Integer, primary_key=True) # primary keys are required by SQLAlchemy
   name = db.Column(db.String(1000))
@@ -23,3 +44,12 @@ class Product(db.Model):
   user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
   image_data = db.Column(db.LargeBinary, nullable=False) #Actual data, needed for Download
   image_rendered_data = db.Column(db.Text, nullable=False) #Data to render the pic in browser
+
+  def getPayment(self):
+    return PAYMENT.get(self.preferredPayment, "Unknown payment method")
+
+  def getLocation(self):
+    return LOCATION.get(self.meetup, "Unknown location")
+
+  def getCondition(self):
+    return CONDITION.get(self.condition, "Unspecified condition")

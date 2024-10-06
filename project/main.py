@@ -42,7 +42,8 @@ def profile():
     name=current_user.name,
     email=current_user.email,
     location=current_user.location,
-    rating=current_user.rating)
+    rating=current_user.rating,
+    owned_products=current_user.products)
 
 @main.route('/product/<int:product_id>')
 def product(product_id):
