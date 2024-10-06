@@ -7,9 +7,8 @@ main = Blueprint('main', __name__)
 
 @main.route('/')
 def index():
-  products = Product.query.all()
-  print(products)
-  return render_template('index.html')
+  products = [1,2,3,4,5,6,7,8,9,10,11,12]
+  return render_template('index.html', products=products)
 
 @main.route('/profile')
 @login_required
