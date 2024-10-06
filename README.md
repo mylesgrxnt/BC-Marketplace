@@ -2,7 +2,7 @@
 
 ## Installing Dependencies
 ```
-pip install flask flask-sqlalchemy flask-login python-dotenv flask-wtf
+pip install flask flask-sqlalchemy flask-login python-dotenv flask-wtf flask_optional_routes
 ```
 
 ## Starting Virtual Environment
