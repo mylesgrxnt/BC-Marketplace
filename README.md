@@ -8,7 +8,7 @@ source f
 
 ## Installing Dependencies
 ```
-pip install flask flask-sqlalchemy flask-login python-dotenv flask-wtf flask_optional_routes
+pip install flask flask-sqlalchemy flask-login python-dotenv flask-wtf flask_optional_routes flask-mail itsdangerous
 ```
 or
 ```
