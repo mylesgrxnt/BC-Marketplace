@@ -47,8 +47,8 @@ def send_email(to, subject, template):
     MAIL_USE_TLS = False,
     MAIL_USE_SSL = True,
     MAIL_DEBUG = False,
-    MAIL_USERNAME = "reverseparenthesisprogram@gmail.com",
-    MAIL_PASSWORD = "qlrn lveq nfqb exom"
+    MAIL_USERNAME = os.getenv("EMAIL_USER"),
+    MAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
     ))
     mail = Mail(app)
     msg = Message(
