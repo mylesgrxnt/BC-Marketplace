@@ -45,16 +45,23 @@ def index(category=None, priceMin=None, priceMax=None, location=None, condition=
       
   return render_template('index.html', products=products)
 
-@main.route('/profile')
+@optional.routes('/profile/<int:user_id>?/')
 @login_required
-def profile():
-  return render_template('profile.html',
-    id=current_user.id,
-    name=current_user.name,
-    email=current_user.email,
-    location=current_user.location,
-    rating=current_user.rating,
-    owned_products=current_user.products)
+def profile(user_id=None):
+  if user_id is not None:
+    user = User.query.get(user_id)
+    return render_template('profile.html', 
+      name=user.name,
+      email=user.email,
+      location=user.location,
+      rating=user.rating,
+      owned_products=user.products)
+  return render_template('profile.html', 
+      name=current_user.name,
+      email=current_user.email,
+      location=current_user.location,
+      rating=current_user.rating,
+      owned_products=current_user.products)
 
 @main.route('/product/<int:product_id>')
 def product(product_id):
