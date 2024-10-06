@@ -1,29 +1,30 @@
 {% extends "base.html" %}
 
 {% block content %}
+<form method="POST">
 <h1>Add an Item</h1>
 <div class="form-group mb-3">
   <h3>Images</h3>
-  <input class="form-control" type="file" id="formFileMultiple" multiple>
+  <input class="form-control" type="file" name="images" id="formFileMultiple" multiple>
 </div>
 <div class="form-group mb-3">
   <h3>Name</h3>
-  <input type="text" class="form-control">
+  <input type="text" class="form-control" name="name" placeholder="Name of item">
 </div>
 <div class="form-group mb-3">
   <h3>Description</h3>
-  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="description" placeholder="Description of item"></textarea>
 </div>
 <div class="form-group mb-3">
   <h3>Price</h3>
   <div class="input-group">
     <span class="input-group-text">$</span>
-    <input type="text" class="form-control" aria-label="Amount (to the nearest cent)">
+    <input type="text" class="form-control" name="price" placeholder="Price of item (nearest cent)">
   </div>
 </div>
 <div class="form-group mb-3">
   <h3>Meetup</h3>
-  <select class="form-select" aria-label="Default select example">
+  <select class="form-select" name="meetup">
     <option selected>Choose a location</option>
     <option value="1">Upper</option>
     <option value="2">Lower</option>
@@ -32,7 +33,7 @@
 </div>
 <div class="form-group mb-3">
   <h3>Preferred Payment</h3>
-  <select class="form-select" aria-label="Default select example">
+  <select class="form-select" name="payment">
     <option selected>Choose a method</option>
     <option value="1">Cash</option>
     <option value="2">Venmo</option>
@@ -42,7 +43,7 @@
 </div>
 <div class="form-group mb-3">
   <h3>Condition</h3>
-  <select class="form-select" aria-label="Default select example">
+  <select class="form-select" name="condition">
     <option selected>Choose a condition</option>
     <option value="1">New</option>
     <option value="2">Used (like new)</option>
@@ -53,14 +54,15 @@
 </div>
 <div class="form-group mb-3">
   <h3>Type</h3>
-  <select class="form-select" aria-label="Default select example">
+  <select class="form-select" name="type">
     <option selected>Choose a category</option>
     <option value="1">Electronics</option>
     <option value="2">Plants</option>
     <option value="3">Lab Equipment</option>
   </select>
 </div>
-<div class="form-group mb-3"></div>
-  <button type="button" class="btn btn-primary btn-lg">Post</button>
+<div class="form-group mb-3" name="submit"></div>
+  <button type="submit" class="btn btn-primary btn-lg">Post</button>
 </div>
+</form>
 {% endblock %}
