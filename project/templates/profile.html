@@ -44,8 +44,8 @@
         <!-- its all spam! for the love of god make this scalable  -->
         {% for product in owned_products %}
           <div class="rounded-3 col-md-3">
-            <div style="height: 150px; width: 200px; overflow: hidden;">
-              <img class="col rounded-3" src="data:image/png;base64, {{ product.image_rendered_data }}">
+            <div style="width: 200px; overflow: hidden;">
+              <a href="{{ url_for('main.product', product_id=product.id) }}"><img class="col rounded-3 resize-200" src="data:image/png;base64, {{ product.image_rendered_data }}"></a>
             </div>
             <div class="container p-0 m-0">
               <h5 class="fw-bold mb-1 mt-2">${{product.price}} </h5>

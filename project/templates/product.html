@@ -68,7 +68,7 @@
             <h3>Seller</h3>
             <div class="container d-flex align-items-center px-0 mb-3">
               <img class="rounded-circle me-3" src="https://picsum.photos/50">
-              <h5 class="m-0"><a class="text-decoration-none text-black" href=""><span class="fw-semibold">{{ seller.name }}</span></a></h5>
+              <h5 class="m-0"><a class="text-decoration-none text-black" href="{{ url_for('main.profile', user_id=seller.id)}}"><span class="fw-semibold">{{ seller.name }}</span></a></h5>
             </div>
           </div>
         </div>
