@@ -10,13 +10,13 @@ h1, h2, h3, h4, h5, h6 {
 
 /* brick by brick i made this navbar work - jude */
 .navbar {
-  background-color: #d8dee9;
+  background: #d8dee9 !important;
   padding-top: 0;
   padding-bottom: 0;
   border-bottom: 2px solid #2e3440;
   font-family: 'Open Sans', sans-serif;
   display: flex;
-  justify-content: center; /* edit me when more stuff is added, like logo */
+  justify-content: center; /* edit me when more stuff is added, like logo incase you want to left justify*/
   align-items: center;
   height: 100%;
 }
@@ -32,6 +32,7 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
 }
 
+/* a tag info */
 .navbar-menu a {
   color: #3b4252;
   padding: 0.75rem 3rem;
@@ -45,4 +46,30 @@ h1, h2, h3, h4, h5, h6 {
 .navbar-menu a:hover {
   background-color: #2e3440;
   color: #eceff4;
+}
+
+/* profile.html css */
+/* columns */
+.profile-self {
+  background-color: #3b4252;
+  color: #e5e9f0;
+}
+
+.profile-entries {
+  background-color: #d8dee9;
+  color: #4c566a;
+}
+
+/* profile picture setup*/
+.pfp {
+  height: 250;
+  width: 250;
+}
+
+.pfp img {
+  border-radius: 50%;
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+  margin: auto;
 }

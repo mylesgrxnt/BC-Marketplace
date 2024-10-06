@@ -38,7 +38,11 @@ def index(category=None, priceMin=None, priceMax=None, location=None, condition=
 @main.route('/profile')
 @login_required
 def profile():
-  return render_template('profile.html', name=current_user.name)
+  return render_template('profile.html', 
+    name=current_user.name,
+    email=current_user.email,
+    location=current_user.location,
+    rating=current_user.rating)
 
 @main.route('/product/<int:product_id>')
 def product(product_id):
