@@ -57,9 +57,11 @@
             {% if product.meetup == 3 %}
             <p class="fst-italic">Available for pickup at Newton Campus</p>
             {% endif %}
+            {% if seller.id != current_user.id %}
             <div class="px-0">
               <a class="btn btn-primary">Contact Seller</a>
             </div>
+            {% endif %}
           </div>
           <div class="flex-grow-1"></div>
           <hr>
@@ -67,9 +69,16 @@
           <div class="container">
             <h3>Seller</h3>
             <div class="container d-flex align-items-center px-0 mb-3">
-              <img class="rounded-circle me-3" src="https://picsum.photos/50">
+              <img class="rounded-circle me-3 resize-50" src="https://avatar.iran.liara.run/public/{{seller.id}}">
               <h5 class="m-0"><a class="text-decoration-none text-black" href="{{ url_for('main.profile', user_id=seller.id)}}"><span class="fw-semibold">{{ seller.name }}</span></a></h5>
             </div>
+            {% if seller.id == current_user.id %}
+            <form method="post" action="{{ url_for('main.delete_product', id=product.id) }}">
+              <button type="submit" class="btn btn-danger">
+                Delete listing
+              </button>
+            </form>
+            {% endif %}
           </div>
         </div>
       </div>

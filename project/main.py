@@ -51,26 +51,37 @@ def profile(user_id=None):
   if user_id is not None:
     user = User.query.get(user_id)
     return render_template('profile.html', 
+      id=user.id,
       name=user.name,
       email=user.email,
       location=user.location,
       rating=user.rating,
       owned_products=user.products)
   return render_template('profile.html', 
+      id=current_user.id,
       name=current_user.name,
       email=current_user.email,
       location=current_user.location,
       rating=current_user.rating,
       owned_products=current_user.products)
 
-@main.route('/product/<int:product_id>')
+
+@main.route('/product/<int:product_id>', methods = ["GET", "POST"])
+@login_required
 def product(product_id):
-    product = next((p for p in Product.query.all() if p.id == product_id), None)
-    if product:
-      seller = next((s for s in User.query.all() if s.id == product.user_id), None)
-      return render_template('product.html', product=product, seller=seller)
-    else:
-      return "Product not found"
+  product = next((p for p in Product.query.all() if p.id == product_id), None)
+  if product:
+    seller = next((s for s in User.query.all() if s.id == product.user_id), None)
+    return render_template('product.html', product=product, seller=seller, user=current_user)
+  else:
+    return "Product not found"
+
+@main.route('/delete_product/<int:id>', methods=['POST'])
+@login_required
+def delete_product(id):
+  Product.query.filter(Product.id == id).delete()
+  db.session.commit()
+  return redirect('/')
 
 @main.route('/add_item', methods =["GET", "POST"])
 @login_required
