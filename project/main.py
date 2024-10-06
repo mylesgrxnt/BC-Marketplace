@@ -33,7 +33,19 @@ def index():
 @main.route('/profile')
 @login_required
 def profile():
-  return render_template('profile.html', name=current_user.name)
+  return render_template('profile.html', 
+    name=current_user.name,
+    email=current_user.email,
+    location=current_user.location,
+    rating=current_user.rating)
+
+@main.route('/product/<int:product_id>')
+def product(product_id):
+    product = next((p for p in Product.query.all() if p.id == product_id), None)
+    if product:
+      return render_template('product.html', product=product)
+    else:
+      return "Product not found"
 
 @main.route('/add_item', methods =["GET", "POST"])
 @login_required
