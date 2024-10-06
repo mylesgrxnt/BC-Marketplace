@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container d-flex gap-3 px-0">
-  <div class="col filters border rounded-3 p-3" style="height: 300px;">
+  <div class="col filters border rounded-3 p-3" style="height: 330px;">
     <h5>Search for Something New</h5>
     <div class="form-outline" data-mdb-input-init>
       <input type="search" id="form1" class="form-control" placeholder="Search" aria-label="Search" />
@@ -13,19 +13,25 @@
       <div class="form-check">
         <input class="form-check-input" type="checkbox" value="1" id="type1">
         <label class="form-check-label" for="type1">
-          Type 1
+          Electronics
         </label>
       </div>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" value="2" id="type2">
         <label class="form-check-label" for="type2">
-          Type 2
+          Plants
         </label>
       </div>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" value="3" id="type3">
         <label class="form-check-label" for="type3">
-          Type 3
+          Lab Equipment
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="4" id="type4">
+        <label class="form-check-label" for="type4">
+          Other
         </label>
       </div>
     </div>
@@ -36,7 +42,7 @@
       <h1 class="mb-3">{{ product.name }} - <span class="fw-bold">{{ product.price }}</span></h1>
       <div class="container border rounded-3 p-3 d-flex justify-content-center gap-3">
         <div class="col-8 d-flex justify-content-center">
-          <img class="rounded-3" src="https://picsum.photos/550">
+          <img class="rounded-3 resize-550" src="data:image/png;base64, {{ product.image_rendered_data }}">
         </div>
         <div class="col filters border-start px-3 d-flex flex-column justify-content-between">
           <div class="container">

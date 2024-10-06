@@ -59,3 +59,15 @@
     display: none;
   }
 }
+
+.resize-200 {
+  height: 200px;
+  width: auto;
+  object-fit: cover;
+}
+
+.resize-550 {
+  height: 550px;
+  width: auto;
+  object-fit: cover;
+}
