@@ -28,7 +28,7 @@ class User(UserMixin, db.Model):
   email = db.Column(db.String(100), unique=True)
   password = db.Column(db.String(100))
   products = db.relationship('Product', backref='owner', lazy=True)  
-  rating = db.Column(db.Float, nullable=False, default=0.0)
+  rating = db.Column(db.Float, nullable=False, default=5.0)
   location = db.Column(db.String(100))
   isOfficial = db.Column(db.Boolean, nullable=True, default=False)
 
