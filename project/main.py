@@ -15,6 +15,14 @@ def index():
 def profile():
   return render_template('profile.html', name=current_user.name)
 
+@main.route('/product/<int:product_id>')
+def product(product_id):
+    product = next((p for p in Product.query.all() if p.id == product_id), None)
+    if product:
+      return render_template('product.html', product=product)
+    else:
+      return "Product not found"
+
 @main.route('/add_item', methods =["GET", "POST"])
 @login_required
 def add_item():
