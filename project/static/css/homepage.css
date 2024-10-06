@@ -72,8 +72,14 @@
   object-fit: cover;
 }
 
+
 .resize-300 {
   height: 300px;
+  width: auto;
+  object-fit: cover;
+
+.resize-50 {
+  height: 50px;
   width: auto;
   object-fit: cover;
 }

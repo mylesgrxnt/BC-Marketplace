@@ -69,12 +69,14 @@ def profile(user_id=None):
   if user_id is not None:
     user = User.query.get(user_id)
     return render_template('profile.html', 
+      id=user.id,
       name=user.name,
       email=user.email,
       location=user.location,
       rating=user.rating,
       owned_products=user.products)
   return render_template('profile.html', 
+      id=current_user.id,
       name=current_user.name,
       email=current_user.email,
       location=current_user.location,
@@ -119,6 +121,15 @@ def allproducts():
         products.remove(p)
       
   return render_template('allproducts.html', products=products, form=form)
+
+
+@main.route('/delete_product/<int:id>', methods=['POST'])
+@login_required
+def delete_product(id):
+  Product.query.filter(Product.id == id).delete()
+  db.session.commit()
+  return redirect('/')
+
 
 @main.route('/add_item', methods =["GET", "POST"])
 @login_required
