@@ -1,4 +1,7 @@
-# Example App
+# BC Marketplace
+
+MADE AS A PART OF THE HACKTHEHEIGHTS9 HACKATHON
+Access at: https://mylesgrxnt.pythonanywhere.com/ (Must be a BC student to log in or view details, but anyone is free to check out the home page!)
 
 ## Starting Virtual Environment
 ```
